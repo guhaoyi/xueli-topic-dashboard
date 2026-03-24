@@ -1,6 +1,6 @@
 const DASHBOARD_V7 = {
   "total_videos": 1168,
-  "total_topics": 277,
+  "total_topics": 278,
   "total_likes": 46118396,
   "cat_summary": [
     {
@@ -1514,8 +1514,8 @@ const DASHBOARD_V7 = {
         {
           "topic": "基本句型讲解（主谓宾/主系表）",
           "topic_desc": "",
-          "count": 21,
-          "total_likes": 664265,
+          "count": 18,
+          "total_likes": 605392,
           "avg_likes": 31631,
           "top_likes": 153187,
           "videos": [
@@ -1557,19 +1557,6 @@ const DASHBOARD_V7 = {
               "douyin_link": "https://www.douyin.com/video/7578510661031523769",
               "cover_url": "https://p3-sign.douyinpic.com/tos-cn-i-0813c000-ce/oAEAsp9AKCEAQw98geIAAFEEdRDtrLAyjfkM0n~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774717200&x-signature=%2FKZOg4Tgsvo%2BEUI%2FvOXowz0mbE0%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=20260315012133505657E07AA637CDA0EA",
               "script": "其实六个字啊就可以概括老外的说话方式了。因为英语只有两种句型，这六个字搞定，所有的英语句子瞬间开窍。\n\n那第一种句子叫做主动宾，这个跟我们中文一样啊，就是谁做了什么。比如说我喝水I drink water，我吃沙拉I eat salad。\n\n那不一样的是什么？是修饰。中文的修饰啊一般在前面，比如说我每天在家认真地写作业，哎，但是英文的修饰它是放在后面的，你看我写作业，主动宾后面才是写作业发生的方式、地点和时间。\n\n比如说啊你看我在一个咖啡馆慢慢地吃沙拉，那么你就先要说主动宾，我吃沙拉I eat salad，然后再是吃沙拉的方式，方式是什么呀？慢，然后再是地点，地点是什么？在一个咖啡馆，时间呢是今天，所以你连起来这句话就变成了I eat salad slowly in a cafe today。\n\n你学会了吗？学会了给老师一颗小心心吧。"
-            },
-            {
-              "idx": 750,
-              "title": "一个视频让你秒懂英语里的主谓宾定状！轻松搞定句子结构 #英语  #英语语法  #英语学习  #小初英语  #零基础学英语",
-              "likes": 14729,
-              "favorites": 19935,
-              "comments": 135,
-              "shares": 6556,
-              "date": "2025-11-23",
-              "duration": "01:02",
-              "douyin_link": "https://www.douyin.com/video/7575912583262129417",
-              "cover_url": "https://p9-sign.douyinpic.com/tos-cn-i-dy/66437963470842129553ac3e83706b85~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774717200&x-signature=6Cu2v%2BcPKVW6jNaTsEx0bxtSWvQ%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603150121427ED3F8CBE97C9DCBCA01",
-              "script": "什么是主语？什么是谓语？还有宾语、定语、状语这些概念你是不是从来没有搞清楚啊？那今天雪林老师一句话来教你秒懂。\n\n比如说“我在这个咖啡店吃美味的蛋糕”，这句话其实就是一个标准的主谓宾句型。主语呢是“我”，什么是主语啊？就是动作的发起者啊。那“吃”就是谓语，什么是谓语呢？表示动作的词。那宾语是什么？宾语就是“蛋糕”，什么是宾语？宾语就是动作的承担者。哎，我在吃什么？我在吃蛋糕啊，所以蛋糕就是宾语。\n\n那这句话里“美味的”它是一个定语。什么是定语啊？给蛋糕下定义的，什么样的蛋糕哦，美味的蛋糕对吧？所以它是定语。最后“在咖啡馆”这个呢是一个状语，什么是状语？表示动作发生的时间、地点、状态。我在哪里吃蛋糕？我在咖啡馆吃蛋糕，所以“在咖啡馆”就是状语。\n\n那整句话连起来就是“I'm eating a delicious cake in the coffee shop”。你学会了吗？学会了给老师一颗小星星吧。"
             },
             {
               "idx": 485,
@@ -1624,19 +1611,6 @@ const DASHBOARD_V7 = {
               "script": "很多同学啊都搞不懂什么是定语从句，其实呢特别简单，我呢用一顿火锅就能教你秒懂。\n\n比如说“我喜欢美味的火锅”，那这个呢就是一个主谓宾句型。“我”呢是主语，“喜欢”是谓语，“火锅”呢是宾语。那什么样的火锅呢？“美味的火锅”，所以“美味的”在这里啊是给火锅下定义的，所以它叫定语。\n\n那这里定语是一个词，那如果这里的定语变成了一句话，它就叫做定语从句。比如说“我喜欢你昨天给我做的火锅”，那么“你昨天给我做的”这就是一个句子了呀，所以修饰的还是火锅。但是呢它从一个词变成了一句话，“你昨天给我做的”就是定语从句。\n\n那这句话用英文怎么说呢？记住啊，英文我们先说主谓宾，“我喜欢火锅”，I like the hotpot。定语从句呢放在修饰词的后面，that you cooked for me yesterday。你都学会了吗？学会了，给老师一颗小星星吧。"
             },
             {
-              "idx": 409,
-              "title": "秒懂主谓宾定状,就像喝咖啡一样简单 #英语语法 #零基础英语 #英语 #英语学习 #英语启蒙",
-              "likes": 31322,
-              "favorites": 34262,
-              "comments": 195,
-              "shares": 11624,
-              "date": "2025-03-25",
-              "duration": "00:58",
-              "douyin_link": "https://www.douyin.com/video/7485737901632785718",
-              "cover_url": "https://p11-sign.douyinpic.com/tos-cn-i-dy/d6bd4336393c4146ad479eb14e00b8eb~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774753200&x-signature=AOyCc7C41ym1lvXZTOAEKSTk4V4%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603151148081C1ACB1D326E0BDBC3FC",
-              "script": "什么是主语？什么是谓语？还有宾语、定语、状语这些概念，是不是我们学英语时从来没有搞清楚过？\n\n那今天我用一句话来教你秒懂：“我在伦敦喝一杯热咖啡。”\n\n这句话其实就是一个标准的主谓宾句型。主语就是“我”，什么是主语？就是动作的发起者。然后“喝”这个就是谓语，什么是谓语？句子里表示动作的部分。\n\n那宾语呢？就是“咖啡”。什么是宾语？宾语是动作的承担者。我在喝什么？我在喝咖啡，对吧？所以咖啡是宾语。\n\n“热的”这个就是定语。什么是定语？给这个咖啡下定义的，什么样的咖啡？是冰的，还是热的？“热的”，所以它是定语。\n\n然后最后“在伦敦”这个就是状语。什么是状语？表示动作发生的时间、地点、状态。我在哪里喝咖啡？我在伦敦喝咖啡，所以“在伦敦”是状语。\n\n你都学会了吗？学会了给老师一颗小星星吧。"
-            },
-            {
               "idx": 43,
               "title": "英语就3种句型,学会了就能秒懂所有的英文造句！ #英语 #英语语法 #英语学习 #零基础英语 #英语启蒙",
               "likes": 153187,
@@ -1661,19 +1635,6 @@ const DASHBOARD_V7 = {
               "douyin_link": "https://www.douyin.com/video/7447855550680894771",
               "cover_url": "https://p3-sign.douyinpic.com/tos-cn-i-dy/eef6a38c96d446db8fd3381bf0e355e1~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774753200&x-signature=TR4J5L4OVUR79FBnUX8ck%2FFskwE%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=20260315115349DBBE7BDF05EFCCDC8B19",
               "script": "想要学好英语啊，只要学会这两个句型就可以了。这两个句型就是主谓宾和主系表。那什么时候用主谓宾，什么时候用主系表呢？你就记住这个口诀：有动作主谓宾，没动作主系表。有动作就是谁做了什么，主语加谓语加宾语。比如说我摸了摸树，I touch the tree；我看见了一片湖，I see a lake。那这个句型跟中文就是一模一样的。\n\n那如果句子我们拉长一点，不仅仅只有主谓宾了，就跟中文不一样了。中文的修饰语一般我们放在前面。比如说“我每天在学校认真地看书”，你看“每天在学校认真地”这个就是修饰。但是英文呢，是把这个修饰放到了后面，句子结构就变成了主谓宾和“方地时”，“方地时”就是动作发生的方式、地点和时间，所以这句话就变成了I read books，我看书，然后是看书的方式carefully（认真地），然后是地点at school（在学校），最后是时间every day。I read books carefully at school every day。\n\n那什么时候用主系表呢？只要句子中没有动作，就是主系表。比如说你看到这三个字，第一个是“天很蓝”，the sky is blue；第二个是“我是一个老师”，I am a teacher；第三个是“我在湖边”，I am beside the lake。\n\n你都学会了吗？那我来考一考你，“校园里的空气很清新”这句话有没有动作呢？它是一个什么句型呢？在评论区告诉我吧。更多零基础高效学英语的方法，每天早上八点来我直播间一起学。"
-            },
-            {
-              "idx": 810,
-              "title": "用一只火爆全网的猴子,带你秒懂主谓宾定状！",
-              "likes": 12822,
-              "favorites": 8121,
-              "comments": 447,
-              "shares": 2084,
-              "date": "2024-08-28",
-              "duration": "01:24",
-              "douyin_link": "https://www.douyin.com/video/7408182227156159794",
-              "cover_url": "https://p26-sign.douyinpic.com/tos-cn-i-dy/fe32c7004ae7424a921123b674f0105e~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774753200&x-signature=V5FwFBgTM4Ar1D3L2m5JHtyDl14%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603151157510321ECBE9A732BC6D963",
-              "script": "I saw a handsome monkey in the game. 那这句话里哪个是主语，哪个是谓语，哪个是宾语，还有定语和状语呢？今天雪梨老师用这只火爆全网的猴子来教你秒懂。\n\n首先我们看这句话，这是一个主谓宾句型。主谓宾是什么呢？首先我们看主语，也就是动作的发起者。那这里动作的发起者就是“我”，“我看见”，所以“我”是主语。然后来看谓语“saw”，“saw”是一个动作，所以在句子里表示动作的词就叫谓语。\n\n那么宾语呢就是“一只猴子”。什么是宾语啊？动作的承担者，“我看见了什么？”“我看见了一只猴子”，所以“猴子”是宾语。那么这里“帅气的猴子”中“handsome”它是一个定语。什么是定语啊？给名词下定义的，“什么样的猴子？哦，帅气的猴子”。最后“in the game”“在游戏里”这是状语。那什么是状语呢？表示动作发生的时间、地点、状态等等。那“我是在哪里看到的这只猴子啊？哦，我是在游戏里”，所以“在游戏里”是状语。\n\n那这样学语法是不是简单多了呢？如果咱们还不知道怎么学好英语，怎么去从零开始做好规划，每天早上八点我都在直播间详细来讲，欢迎你和我一起来学。"
             },
             {
               "idx": 346,
@@ -5950,6 +5911,53 @@ const DASHBOARD_V7 = {
               "douyin_link": "https://www.douyin.com/video/7613384334870859050",
               "cover_url": "https://p3-sign.douyinpic.com/tos-cn-i-dy/5a654ff91b314d50979d679494b8f401~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774717200&x-signature=4%2Fy8wSFgurQ1%2BKBydsHef9IRudo%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=20260315012106D408B3BB2A4B1ED465FF",
               "script": "Every day I do. Yesterday I did. Tomorrow I will do. After dinner, I will do. In 1996, I did. In 2030, I will do. Sometimes I do. Before lunch, I did. Last week, I评论区告诉我吧。\n\n（注：经核查，除末尾“评论区告诉我吧”表述口语化但无明显同音/近音识别错误外，其余内容逻辑连贯、语法正确，无需修改。）"
+            }
+          ]
+        },
+        {
+          "topic": "秒懂主谓宾定状",
+          "topic_desc": "用简单方法讲解主谓宾定状五大句子成分",
+          "count": 3,
+          "total_likes": 58873,
+          "videos": [
+            {
+              "idx": 750,
+              "title": "一个视频让你秒懂英语里的主谓宾定状！轻松搞定句子结构 #英语  #英语语法  #英语学习  #小初英语  #零基础学英语",
+              "likes": 14729,
+              "favorites": 19935,
+              "comments": 135,
+              "shares": 6556,
+              "date": "2025-11-23",
+              "duration": "01:02",
+              "douyin_link": "https://www.douyin.com/video/7575912583262129417",
+              "cover_url": "https://p9-sign.douyinpic.com/tos-cn-i-dy/66437963470842129553ac3e83706b85~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774717200&x-signature=6Cu2v%2BcPKVW6jNaTsEx0bxtSWvQ%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603150121427ED3F8CBE97C9DCBCA01",
+              "script": "什么是主语？什么是谓语？还有宾语、定语、状语这些概念你是不是从来没有搞清楚啊？那今天雪林老师一句话来教你秒懂。\n\n比如说“我在这个咖啡店吃美味的蛋糕”，这句话其实就是一个标准的主谓宾句型。主语呢是“我”，什么是主语啊？就是动作的发起者啊。那“吃”就是谓语，什么是谓语呢？表示动作的词。那宾语是什么？宾语就是“蛋糕”，什么是宾语？宾语就是动作的承担者。哎，我在吃什么？我在吃蛋糕啊，所以蛋糕就是宾语。\n\n那这句话里“美味的”它是一个定语。什么是定语啊？给蛋糕下定义的，什么样的蛋糕哦，美味的蛋糕对吧？所以它是定语。最后“在咖啡馆”这个呢是一个状语，什么是状语？表示动作发生的时间、地点、状态。我在哪里吃蛋糕？我在咖啡馆吃蛋糕，所以“在咖啡馆”就是状语。\n\n那整句话连起来就是“I'm eating a delicious cake in the coffee shop”。你学会了吗？学会了给老师一颗小星星吧。"
+            },
+            {
+              "idx": 409,
+              "title": "秒懂主谓宾定状,就像喝咖啡一样简单 #英语语法 #零基础英语 #英语 #英语学习 #英语启蒙",
+              "likes": 31322,
+              "favorites": 34262,
+              "comments": 195,
+              "shares": 11624,
+              "date": "2025-03-25",
+              "duration": "00:58",
+              "douyin_link": "https://www.douyin.com/video/7485737901632785718",
+              "cover_url": "https://p11-sign.douyinpic.com/tos-cn-i-dy/d6bd4336393c4146ad479eb14e00b8eb~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774753200&x-signature=AOyCc7C41ym1lvXZTOAEKSTk4V4%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603151148081C1ACB1D326E0BDBC3FC",
+              "script": "什么是主语？什么是谓语？还有宾语、定语、状语这些概念，是不是我们学英语时从来没有搞清楚过？\n\n那今天我用一句话来教你秒懂：“我在伦敦喝一杯热咖啡。”\n\n这句话其实就是一个标准的主谓宾句型。主语就是“我”，什么是主语？就是动作的发起者。然后“喝”这个就是谓语，什么是谓语？句子里表示动作的部分。\n\n那宾语呢？就是“咖啡”。什么是宾语？宾语是动作的承担者。我在喝什么？我在喝咖啡，对吧？所以咖啡是宾语。\n\n“热的”这个就是定语。什么是定语？给这个咖啡下定义的，什么样的咖啡？是冰的，还是热的？“热的”，所以它是定语。\n\n然后最后“在伦敦”这个就是状语。什么是状语？表示动作发生的时间、地点、状态。我在哪里喝咖啡？我在伦敦喝咖啡，所以“在伦敦”是状语。\n\n你都学会了吗？学会了给老师一颗小星星吧。"
+            },
+            {
+              "idx": 810,
+              "title": "用一只火爆全网的猴子,带你秒懂主谓宾定状！",
+              "likes": 12822,
+              "favorites": 8121,
+              "comments": 447,
+              "shares": 2084,
+              "date": "2024-08-28",
+              "duration": "01:24",
+              "douyin_link": "https://www.douyin.com/video/7408182227156159794",
+              "cover_url": "https://p26-sign.douyinpic.com/tos-cn-i-dy/fe32c7004ae7424a921123b674f0105e~tplv-dy-resize-walign:360:q75.jpeg?lk3s=138a59ce&x-expires=1774753200&x-signature=V5FwFBgTM4Ar1D3L2m5JHtyDl14%3D&from=327834062&s=PackSourceEnum_PUBLISH&se=false&sc=cover&biz_tag=aweme_video&l=202603151157510321ECBE9A732BC6D963",
+              "script": "I saw a handsome monkey in the game. 那这句话里哪个是主语，哪个是谓语，哪个是宾语，还有定语和状语呢？今天雪梨老师用这只火爆全网的猴子来教你秒懂。\n\n首先我们看这句话，这是一个主谓宾句型。主谓宾是什么呢？首先我们看主语，也就是动作的发起者。那这里动作的发起者就是“我”，“我看见”，所以“我”是主语。然后来看谓语“saw”，“saw”是一个动作，所以在句子里表示动作的词就叫谓语。\n\n那么宾语呢就是“一只猴子”。什么是宾语啊？动作的承担者，“我看见了什么？”“我看见了一只猴子”，所以“猴子”是宾语。那么这里“帅气的猴子”中“handsome”它是一个定语。什么是定语啊？给名词下定义的，“什么样的猴子？哦，帅气的猴子”。最后“in the game”“在游戏里”这是状语。那什么是状语呢？表示动作发生的时间、地点、状态等等。那“我是在哪里看到的这只猴子啊？哦，我是在游戏里”，所以“在游戏里”是状语。\n\n那这样学语法是不是简单多了呢？如果咱们还不知道怎么学好英语，怎么去从零开始做好规划，每天早上八点我都在直播间详细来讲，欢迎你和我一起来学。"
             }
           ]
         }
