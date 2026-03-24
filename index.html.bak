@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雪梨老师选题母题看板 v9 - 全量视频总览</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;
+  --surface:#161b22;
+  --card:#1c2330;
+  --card2:#212838;
+  --border:#2d3748;
+  --text:#e2e8f0;
+  --muted:#8899a8;
+  --accent:#7c8cff;
+  --accent2:#5a6fff;
+  --red:#ff6b7a;
+  --green:#4ade80;
+  --orange:#fbbf24;
+  --blue:#60a5fa;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{color:inherit;text-decoration:none}
+img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ── Header ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap
+}
+.header h1{font-size:17px;font-weight:700;color:#fff;flex-shrink:0}
+.hstats{display:flex;gap:6px;flex-wrap:wrap}
+.hstat{
+  background:var(--card);border:1px solid var(--border);
+  padding:3px 10px;border-radius:999px;font-size:11px;color:var(--muted)
+}
+.hstat strong{color:var(--text);font-weight:600}
+
+/* ── Tab Navigation ── */
+.tab-nav{
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:10px 24px;
+  display:flex;gap:8px
+}
+.tab-btn{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);padding:8px 16px;border-radius:8px;
+  font-size:13px;cursor:pointer;transition:all .2s
+}
+.tab-btn:hover{background:var(--card2);color:var(--text)}
+.tab-btn.active{
+  background:var(--accent);border-color:var(--accent);
+  color:#fff;font-weight:500
+}
+
+/* ── Search ── */
+.search-wrap{
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:10px 24px
+}
+.search-wrap input{
+  width:100%;max-width:480px;
+  background:var(--card);border:1px solid var(--border);
+  color:var(--text);padding:8px 14px;border-radius:9px;
+  font-size:13px;outline:none
+}
+.search-wrap input:focus{border-color:var(--accent)}
+
+/* ── Layout ── */
+.layout{display:flex}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:280px;min-width:280px;
+  background:var(--surface);border-right:1px solid var(--border);
+  overflow-y:auto;height:calc(100vh - 165px)
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border)}
+
+.cat-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 14px;background:#0d1117;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .15s
+}
+.cat-hdr:hover{background:#131922}
+.cat-hdr.active{background:#131922;border-left:3px solid var(--accent)}
+.cat-name{font-size:13px;font-weight:600;color:var(--text)}
+.cat-meta{font-size:10px;color:var(--muted)}
+
+.cat-topics{display:none;background:#0f151e}
+.cat-topics.open{display:block}
+
+.topic-row{
+  padding:7px 14px 7px 22px;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  cursor:pointer;transition:background .15s
+}
+.topic-row:hover{background:var(--card2)}
+.topic-row.active{background:#1a2133;border-left:3px solid var(--accent)}
+.tname{font-size:12px;color:var(--text)}
+.tmeta{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* ── Main Content ── */
+.main{flex:1;overflow-y:auto;padding:18px 22px;height:calc(100vh - 165px)}
+.main::-webkit-scrollbar{width:5px}
+.main::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* ── All Videos View ── */
+.all-videos-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:12px
+}
+.all-videos-title{font-size:18px;font-weight:700;color:#fff}
+.sort-controls{display:flex;gap:8px;flex-wrap:wrap}
+.sort-btn{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);padding:6px 12px;border-radius:6px;
+  font-size:12px;cursor:pointer
+}
+.sort-btn:hover{background:var(--card2)}
+.sort-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Video List Table (FIXED STICKY) ── */
+.video-list-container{
+  overflow-x:auto;
+  margin-top:16px;
+  background:var(--card);
+  border-radius:12px;
+  border:1px solid var(--border)
+}
+.video-list{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px
+}
+.video-list thead{
+  position:sticky;
+  top:0;
+  z-index:10
+}
+.video-list th{
+  text-align:left;padding:12px 8px;
+  background:var(--surface);
+  border-bottom:2px solid var(--accent);
+  font-size:11px;font-weight:600;color:var(--muted);
+  white-space:nowrap
+}
+.video-list td{
+  padding:10px 8px;
+  border-bottom:1px solid var(--border);
+  vertical-align:middle;
+  background:var(--card)
+}
+.video-list tbody tr:hover td{background:var(--card2)}
+.video-list tbody tr{cursor:pointer}
+
+/* Script expansion row */
+.script-row td{
+  padding:0;
+  background:var(--bg)!important;
+  border-bottom:1px solid var(--border)
+}
+.script-content{
+  padding:16px;
+  display:none
+}
+.script-content.show{display:block}
+.script-text{
+  background:var(--surface);
+  border-radius:8px;
+  padding:16px;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+  word-break:break-word;
+  max-height:300px;
+  overflow-y:auto
+}
+
+.video-cover{
+  width:60px;height:45px;border-radius:6px;
+  background:var(--card2);overflow:hidden
+}
+.video-cover img{width:100%;height:100%;object-fit:cover}
+
+.video-title{
+  color:var(--text);font-weight:500;
+  max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+
+.cat-tag{
+  display:inline-block;background:var(--card2);
+  border:1px solid var(--border);color:var(--blue);
+  padding:2px 8px;border-radius:999px;font-size:11px;
+  cursor:pointer;white-space:nowrap
+}
+.cat-tag:hover{background:var(--blue);color:#fff}
+
+.topic-tag{
+  display:inline-block;background:var(--card2);
+  border:1px solid var(--border);color:var(--accent);
+  padding:2px 8px;border-radius:999px;font-size:11px;
+  cursor:pointer;white-space:nowrap
+}
+.topic-tag:hover{background:var(--accent);color:#fff}
+
+.stat-cell{font-size:11px;white-space:nowrap}
+.likes{color:var(--red);font-weight:600}
+.favorites{color:var(--orange)}
+.comments{color:var(--blue)}
+.shares{color:var(--green)}
+
+.date-text{color:var(--muted);font-size:11px;white-space:nowrap}
+
+.link-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--accent);padding:4px 10px;border-radius:6px;
+  font-size:11px;cursor:pointer
+}
+.link-btn:hover{background:var(--accent);color:#fff}
+
+/* ── Video Cards Grid ── */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px
+}
+.video-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;cursor:pointer
+}
+.video-card:hover{border-color:var(--accent)}
+.video-card-cover{height:140px;background:var(--card2)}
+.video-card-body{padding:12px}
+.video-card-title{
+  font-size:13px;font-weight:500;color:var(--text);
+  line-height:1.4;margin-bottom:8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.video-card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--muted)
+}
+.video-card-tags{
+  display:flex;gap:4px;flex-wrap:wrap;margin-top:8px
+}
+
+/* ── View Toggle ── */
+.view-toggle{display:flex;gap:4px}
+.view-toggle button{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);padding:6px 10px;border-radius:6px;
+  font-size:12px;cursor:pointer
+}
+.view-toggle button.active{background:var(--accent);color:#fff}
+
+/* ── Empty State ── */
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+
+/* ── Hidden ── */
+.hidden{display:none!important}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .video-title{max-width:150px}
+}
+
+/* ── Modal for All Videos Script ── */
+.modal-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.8);z-index:1000;
+  display:none;align-items:center;justify-content:center;
+  padding:20px
+}
+.modal-overlay.show{display:flex}
+.modal-content{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;width:100%;max-width:700px;max-height:80vh;
+  display:flex;flex-direction:column;overflow:hidden
+}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border)
+}
+.modal-header h3{font-size:16px;font-weight:600;color:#fff}
+.modal-close{
+  background:none;border:none;color:var(--muted);
+  font-size:24px;cursor:pointer;padding:0;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;transition:all .2s
+}
+.modal-close:hover{background:var(--card);color:var(--text)}
+.modal-body{
+  padding:20px;overflow-y:auto;flex:1
+}
+.modal-meta{
+  display:flex;gap:16px;margin-bottom:16px;font-size:13px;color:var(--muted);flex-wrap:wrap
+}
+.modal-script{
+  background:var(--bg);border-radius:12px;padding:20px;
+  font-size:14px;line-height:1.8;color:var(--text);
+  white-space:pre-wrap;word-break:break-word
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦞 雪梨老师选题母题看板 v9+</h1>
+  <div class="hstats" id="hstats"></div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('topics')">📂 母题看板</button>
+  <button class="tab-btn" onclick="switchTab('all')">📋 全部视频</button>
+</div>
+
+<div class="search-wrap">
+  <input id="searchInput" placeholder="搜索视频标题 / 母题 / 关键词...">
+</div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main" id="main"></main>
+</div>
+
+<!-- Modal for All Videos Script -->
+<div class="modal-overlay" id="scriptModal" onclick="closeScriptModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modalTitle">视频文案</h3>
+      <button class="modal-close" onclick="closeScriptModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-script" id="modalScript"></div>
+    </div>
+  </div>
+</div>
+
+<script src="data/dashboard_data_v9.js"></script>
+<script>
+const DATA = DASHBOARD_V7;
+let state = {curTab:'topics',curCat:null,curTopic:null,q:'',sort:'likes',viewMode:'list'};
+
+function esc(s){return ((s||'')+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmt(n){if(n>=10000000)return(n/10000000).toFixed(1)+'千万';if(n>=10000)return(n/10000).toFixed(1)+'万';if(n>=1000)return(n/1000).toFixed(1)+'k';return String(n||0)}
+
+init();
+
+function init(){
+  document.getElementById('hstats').innerHTML =
+    `<span class=hstat><strong>${DATA.total_videos}</strong>条视频</span>` +
+    `<span class=hstat><strong>${DATA.cat_summary.length}</strong>大类</span>` +
+    `<span class=hstat><strong>${DATA.total_topics}</strong>母题</span>`;
+  renderSidebar();
+  renderMain();
+}
+
+function switchTab(tab){
+  state.curTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('sidebar').style.display = tab==='topics'?'block':'none';
+  renderMain();
+}
+
+function renderSidebar(){
+  const sb = document.getElementById('sidebar');
+  let html = '';
+  for(const cat of DATA.cat_summary){
+    const isOpen = state.curCat === cat.name;
+    html += `<div class="cat-hdr${isOpen?' active':''}" onclick="goCat('${esc(cat.name)}')">
+      <span class="cat-name">${esc(cat.name)}</span>
+      <span class="cat-meta">${cat.count}条</span>
+    </div>`;
+    html += `<div class="cat-topics${isOpen?' open':''}">`;
+    const q = state.q.toLowerCase();
+    const filtered = cat.topics.filter(t=>{
+      if(!q)return true;
+      return t.topic.toLowerCase().includes(q)||t.videos.some(v=>(v.title||'').toLowerCase().includes(q));
+    });
+    for(const t of filtered.sort((a,b)=>b.total_likes-a.total_likes)){
+      const isAct = state.curTopic?.topic===t.topic;
+      html += `<div class="topic-row${isAct?' active':''}" onclick="goTopic('${esc(cat.name)}','${esc(t.topic)}')">
+        <div class="tname">${esc(t.topic)}</div>
+        <div class="tmeta">${t.count}条 · ${fmt(t.total_likes)}赞</div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  sb.innerHTML = html;
+}
+
+function goCat(name){state.curCat=state.curCat===name?null:name;state.curTopic=null;renderSidebar();renderMain();}
+function goTopic(cat,topic){state.curCat=cat;state.curTopic={cat,topic};renderSidebar();renderMain();}
+
+function renderMain(){
+  const main = document.getElementById('main');
+  if(state.curTab==='topics')renderTopicsView(main);
+  else renderAllVideosView(main);
+}
+
+function renderTopicsView(main){
+  if(!state.curCat){renderOverview(main);return;}
+  const catData = DATA.cat_summary.find(c=>c.name===state.curCat);
+  if(!state.curTopic){renderCatTopics(main,catData);return;}
+  const topic = catData?.topics.find(t=>t.topic===state.curTopic.topic);
+  if(topic)renderTopicDetail(main,topic);
+  else main.innerHTML='<div class=empty>无数据</div>';
+}
+
+function renderOverview(main){
+  main.innerHTML=`
+    <div style="margin-bottom:16px"><h2 style="font-size:18px;font-weight:700;color:#fff">全部 ${DATA.total_topics} 个母题</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px" id="og"></div>`;
+  const q=state.q.toLowerCase();
+  let all=[];
+  for(const cat of DATA.cat_summary){
+    for(const t of cat.topics){
+      if(q&&!t.topic.toLowerCase().includes(q)&&!t.videos.some(v=>(v.title||'').toLowerCase().includes(q)))continue;
+      all.push({...t,_cat:cat.name});
+    }
+  }
+  all.sort((a,b)=>b.total_likes-a.total_likes);
+  document.getElementById('og').innerHTML=all.slice(0,80).map(t=>`
+    <div onclick="goTopic('${esc(t._cat)}','${esc(t.topic)}')" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer">
+      <div style="font-size:10px;color:var(--accent);margin-bottom:6px">${esc(t._cat)}</div>
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">${esc(t.topic)}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">${esc(t.topic_desc||'').slice(0,60)}...</div>
+      <div style="font-size:12px;color:var(--muted)"><span style="color:var(--red)">❤️ ${fmt(t.total_likes)}</span> · ${t.count}条</div>
+    </div>`).join('')||'<div class=empty>无结果</div>';
+}
+
+function renderCatTopics(main,catData){
+  main.innerHTML=`
+    <button onclick="state.curCat=null;renderSidebar();renderMain()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;margin-bottom:12px">← 返回</button>
+    <h2 style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px">${esc(state.curCat)}</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">${catData.topics.map(t=>`
+      <div onclick="goTopic('${esc(state.curCat)}','${esc(t.topic)}')" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">${esc(t.topic)}</div>
+        <div style="font-size:12px;color:var(--muted)"><span style="color:var(--red)">❤️ ${fmt(t.total_likes)}</span> · ${t.count}条</div>
+      </div>`).join('')}</div>`;
+}
+
+function renderTopicDetail(main,topic){
+  let videos=[...topic.videos];
+  if(state.q){
+    const q=state.q.toLowerCase();
+    videos=videos.filter(v=>(v.title||'').toLowerCase().includes(q)||(v.script||'').toLowerCase().includes(q));
+  }
+  videos.sort((a,b)=>state.sort==='likes'?b.likes-a.likes:b.date.localeCompare(a.date));
+
+  main.innerHTML=`
+    <button onclick="state.curTopic=null;renderSidebar();renderMain()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;margin-bottom:12px">← 返回</button>
+    <div style="margin-bottom:16px">
+      <h2 style="font-size:20px;font-weight:700;color:#fff">${esc(topic.topic)}</h2>
+      <div style="color:var(--muted);font-size:13px;margin-top:4px">${topic.topic_desc||''}</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button onclick="setSort('likes')" style="background:${state.sort==='likes'?'var(--accent)':'var(--card)'};border:1px solid var(--border);color:${state.sort==='likes'?'#fff':'var(--muted)'};padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer">按点赞↓</button>
+      <button onclick="setSort('date')" style="background:${state.sort==='date'?'var(--accent)':'var(--card)'};border:1px solid var(--border);color:${state.sort==='date'?'#fff':'var(--muted)'};padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer">按时间↓</button>
+    </div>
+    ${videos.map(v=>{
+      const cover=v.cover_url||'';
+      const link=v.douyin_link||'#';
+      const script=(v.script||'').trim()||'暂无文案';
+      return `
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;gap:12px;align-items:flex-start;cursor:pointer" onclick="toggleScript(${v.idx})">
+            <div style="width:120px;height:90px;background:var(--card2);border-radius:8px;overflow:hidden;flex-shrink:0">${cover?`<img src='${esc(cover)}' style='width:100%;height:100%;object-fit:cover'>`:''}</div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px">${esc(v.title)}</div>
+              <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted);margin-bottom:8px">
+                <span style="color:var(--red)">❤️ ${fmt(v.likes)}</span>
+                <span>⭐ ${fmt(v.favorites||0)}</span>
+                <span>💬 ${fmt(v.comments||0)}</span>
+                <span>↗️ ${fmt(v.shares||0)}</span>
+                <span>${v.date}</span>
+              </div>
+              <a href="${esc(link)}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:var(--card2);border:1px solid var(--border);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:11px;text-decoration:none" onclick="event.stopPropagation()">🔗 抖音</a>
+            </div>
+          </div>
+          <div id="script-${v.idx}" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+            <div style="background:var(--bg);border-radius:8px;padding:12px;font-size:12px;color:var(--text);line-height:1.6;white-space:pre-wrap;max-height:300px;overflow-y:auto">${esc(script)}</div>
+          </div>
+        </div>
+      `;
+    }).join('')}`;
+}
+
+function toggleScript(idx){
+  const el=document.getElementById('script-'+idx);
+  if(el)el.style.display=el.style.display==='none'?'block':'none';
+}
+
+function setSort(s){state.sort=s;renderMain();}
+
+// ── All Videos View ──
+function renderAllVideosView(main){
+  let allVideos=[];
+  for(const cat of DATA.cat_summary){
+    for(const topic of cat.topics){
+      for(const v of topic.videos){
+        allVideos.push({...v,_topic:topic.topic,_cat:cat.name});
+      }
+    }
+  }
+  
+  if(state.sort==='likes')allVideos.sort((a,b)=>b.likes-a.likes);
+  else if(state.sort==='date')allVideos.sort((a,b)=>b.date.localeCompare(a.date));
+  else allVideos.sort((a,b)=>a._topic.localeCompare(b._topic)||b.likes-a.likes);
+  
+  const q=state.q.toLowerCase();
+  if(q)allVideos=allVideos.filter(v=>(v.title||'').toLowerCase().includes(q)||v._topic.toLowerCase().includes(q)||v._cat.toLowerCase().includes(q));
+  
+  let html=`
+    <div class="all-videos-header">
+      <div class="all-videos-title">全部视频 (${allVideos.length}条)</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="sort-controls">
+          <button class="sort-btn ${state.sort==='likes'?'active':''}" onclick="setVideoSort('likes')">点赞↓</button>
+          <button class="sort-btn ${state.sort==='date'?'active':''}" onclick="setVideoSort('date')">时间↓</button>
+          <button class="sort-btn ${state.sort==='topic'?'active':''}" onclick="setVideoSort('topic')">母题A-Z</button>
+        </div>
+        <div class="view-toggle">
+          <button class="${state.viewMode==='list'?'active':''}" onclick="setViewMode('list')">列表</button>
+          <button class="${state.viewMode==='grid'?'active':''}" onclick="setViewMode('grid')">卡片</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  if(!allVideos.length){main.innerHTML=html+'<div class=empty>无匹配视频</div>';return;}
+  
+  if(state.viewMode==='list')html+=renderVideoList(allVideos);
+  else html+=renderVideoGrid(allVideos);
+  
+  main.innerHTML=html;
+}
+
+function renderVideoList(videos){
+  let html='<div class="video-list-container"><table class="video-list"><thead><tr>';
+  html+='<th>分类</th><th style="min-width:150px">母题</th><th style="width:70px">封面</th>';
+  html+='<th>标题</th><th style="text-align:center">点赞</th><th style="text-align:center">收藏</th>';
+  html+='<th style="text-align:center">评论</th><th style="text-align:center">分享</th><th>时间</th><th>操作</th></tr></thead><tbody>';
+  
+  for(const v of videos){
+    const cover=v.cover_url||'';
+    const link=v.douyin_link||'#';
+    html+=`<tr onclick="showScriptModal(${v.idx})">
+      <td><span class="cat-tag" onclick="event.stopPropagation();goToTopic('${esc(v._cat)}',null)">${esc(v._cat)}</span></td>
+      <td><span class="topic-tag" onclick="event.stopPropagation();goToTopic('${esc(v._cat)}','${esc(v._topic)}')">${esc(v._topic)}</span></td>
+      <td><div class="video-cover">${cover?`<img src="${esc(cover)}">`:''}</div></td>
+      <td><div class="video-title" title="${esc(v.title)}">${esc(v.title)}</div></td>
+      <td style="text-align:center"><span class="stat-cell likes">${fmt(v.likes)}</span></td>
+      <td style="text-align:center"><span class="stat-cell favorites">${fmt(v.favorites||0)}</span></td>
+      <td style="text-align:center"><span class="stat-cell comments">${fmt(v.comments||0)}</span></td>
+      <td style="text-align:center"><span class="stat-cell shares">${fmt(v.shares||0)}</span></td>
+      <td><span class="date-text">${v.date}</span></td>
+      <td><a href="${esc(link)}" target="_blank" class="link-btn" onclick="event.stopPropagation()">🔗 抖音</a></td>
+    </tr>`;
+  }
+  
+  html+='</tbody></table></div>';
+  return html;
+}
+
+function showScriptModal(idx){
+  // Find video - use loose equality to handle string/number mismatch
+  let video=null;
+  for(const cat of DATA.cat_summary){
+    for(const topic of cat.topics){
+      for(const v of topic.videos){
+        if(v.idx==idx){video={...v,_topic:topic.topic,_cat:cat.name};break;}
+      }
+      if(video)break;
+    }
+    if(video)break;
+  }
+  
+  if(!video){
+    console.error('Video not found for idx:', idx);
+    alert('未找到视频数据 (idx: ' + idx + ')');
+    return;
+  }
+  
+  // Ensure modal elements exist
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMeta = document.getElementById('modalMeta');
+  const modalScript = document.getElementById('modalScript');
+  const scriptModal = document.getElementById('scriptModal');
+  
+  if(!modalTitle || !modalMeta || !modalScript || !scriptModal){
+    console.error('Modal elements not found');
+    return;
+  }
+  
+  modalTitle.textContent = video.title || '无标题';
+  modalMeta.innerHTML=`
+    <span style="color:var(--accent)">${esc(video._cat)}</span> · 
+    <span>${esc(video._topic)}</span> · 
+    <span style="color:var(--red)">❤️ ${fmt(video.likes)}</span> · 
+    <span style="color:var(--orange)">⭐ ${fmt(video.favorites||0)}</span> · 
+    <span style="color:var(--blue)">💬 ${fmt(video.comments||0)}</span> · 
+    <span style="color:var(--green)">↗️ ${fmt(video.shares||0)}</span>
+  `;
+  
+  // Handle script content
+  const scriptContent = (video.script||'').trim();
+  modalScript.textContent = scriptContent || '暂无文案';
+  
+  // Show modal
+  scriptModal.classList.add('show');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeScriptModal(){
+  const scriptModal = document.getElementById('scriptModal');
+  if(scriptModal) scriptModal.classList.remove('show');
+  document.body.style.overflow = ''; // Restore scrolling
+}
+
+function renderVideoGrid(videos){
+  return '<div class="video-grid">'+videos.map(v=>{
+    const cover=v.cover_url||'';
+    const link=v.douyin_link||'#';
+    return `<div class="video-card" onclick="window.open('${esc(link)}','_blank')">
+      <div class="video-card-cover">${cover?`<img src="${esc(cover)}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+      <div class="video-card-body">
+        <div class="video-card-title">${esc(v.title)}</div>
+        <div style="display:flex;gap:4px;margin-bottom:8px">
+          <span class="cat-tag">${esc(v._cat)}</span>
+          <span class="topic-tag">${esc(v._topic)}</span>
+        </div>
+        <div style="display:flex;gap:12px;font-size:11px;color:var(--muted)">
+          <span class="likes">❤️ ${fmt(v.likes)}</span>
+          <span class="favorites">⭐ ${fmt(v.favorites||0)}</span>
+          <span class="comments">💬 ${fmt(v.comments||0)}</span>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted)">${v.date}</div>
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function setVideoSort(s){state.sort=s;renderMain();}
+function setViewMode(m){state.viewMode=m;renderMain();}
+function goToTopic(cat,topic){
+  state.curTab='topics';state.curCat=cat;state.curTopic=topic?{cat,topic}:null;
+  document.querySelectorAll('.tab-btn').forEach((btn,i)=>btn.classList.toggle('active',i===0));
+  document.getElementById('sidebar').style.display='block';
+  renderSidebar();renderMain();
+}
+
+document.getElementById('searchInput').addEventListener('input',(e)=>{
+  state.q=e.target.value;
+  if(state.curTab==='topics')renderSidebar();
+  renderMain();
+});
+</script>
+
+</body>
+</html>
