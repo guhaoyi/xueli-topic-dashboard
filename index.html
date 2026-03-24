@@ -265,6 +265,40 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 /* ── Empty State ── */
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 
+/* ── Edit Topic Dropdown ── */
+.edit-topic-wrap{
+  margin-top:16px;padding-top:12px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap
+}
+.edit-topic-btn{
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--orange);padding:6px 14px;border-radius:8px;
+  font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px
+}
+.edit-topic-btn:hover{background:var(--orange);color:#fff}
+.edit-select{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--text);padding:6px 10px;border-radius:8px;
+  font-size:12px;outline:none;max-width:200px
+}
+.edit-select:focus{border-color:var(--accent)}
+.edit-save-btn{
+  background:var(--accent);border:none;
+  color:#fff;padding:6px 14px;border-radius:8px;
+  font-size:12px;cursor:pointer
+}
+.edit-save-btn:hover{background:var(--accent2)}
+.edit-msg{font-size:11px;color:var(--green);margin-left:8px}
+.export-btn{
+  position:fixed;bottom:20px;right:20px;z-index:50;
+  background:var(--accent);border:none;color:#fff;
+  padding:10px 18px;border-radius:12px;font-size:13px;
+  cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);
+  display:none
+}
+.export-btn:hover{background:var(--accent2)}
+.export-btn.show{display:block}
+
 /* ── Hidden ── */
 .hidden{display:none!important}
 
@@ -459,9 +493,13 @@ img{width:100%;height:100%;object-fit:cover;display:block}
     <div class="modal-body">
       <div class="modal-meta" id="modalMeta"></div>
       <div class="modal-script" id="modalScript"></div>
+      <div class="edit-topic-wrap" id="editTopicWrap"></div>
     </div>
   </div>
 </div>
+
+<!-- Export button (appears after edits) -->
+<button class="export-btn" id="exportBtn" onclick="exportEdits()">💾 导出修改 (<span id="editCount">0</span>条)</button>
 
 <script src="data/dashboard_data_v9.js"></script>
 <script>
@@ -503,7 +541,7 @@ function renderSidebar(){
     const q = state.q.toLowerCase();
     const filtered = cat.topics.filter(t=>{
       if(!q)return true;
-      return t.topic.toLowerCase().includes(q)||t.videos.some(v=>(v.title||'').toLowerCase().includes(q));
+      return t.topic.toLowerCase().includes(q)||t.videos.some(v=>(v.title||'').toLowerCase().includes(q)||(v.script||'').toLowerCase().includes(q));
     });
     for(const t of filtered.sort((a,b)=>b.total_likes-a.total_likes)){
       const isAct = state.curTopic?.topic===t.topic;
@@ -543,7 +581,7 @@ function renderOverview(main){
   let all=[];
   for(const cat of DATA.cat_summary){
     for(const t of cat.topics){
-      if(q&&!t.topic.toLowerCase().includes(q)&&!t.videos.some(v=>(v.title||'').toLowerCase().includes(q)))continue;
+      if(q&&!t.topic.toLowerCase().includes(q)&&!t.videos.some(v=>(v.title||'').toLowerCase().includes(q)||(v.script||'').toLowerCase().includes(q)))continue;
       all.push({...t,_cat:cat.name});
     }
   }
@@ -637,7 +675,7 @@ function renderAllVideosView(main){
   else allVideos.sort((a,b)=>a._topic.localeCompare(b._topic)||b.likes-a.likes);
   
   const q=state.q.toLowerCase();
-  if(q)allVideos=allVideos.filter(v=>(v.title||'').toLowerCase().includes(q)||v._topic.toLowerCase().includes(q)||v._cat.toLowerCase().includes(q));
+  if(q)allVideos=allVideos.filter(v=>(v.title||'').toLowerCase().includes(q)||v._topic.toLowerCase().includes(q)||v._cat.toLowerCase().includes(q)||(v.script||'').toLowerCase().includes(q));
   
   let html=`
     <div class="all-videos-header">
@@ -740,6 +778,9 @@ function showScriptModal(idx){
   // Show modal
   scriptModal.classList.add('show');
   document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+  // Render edit section
+  renderEditSection({...video});
 }
 
 function closeScriptModal(){
@@ -778,6 +819,104 @@ function goToTopic(cat,topic){
   document.querySelectorAll('.tab-btn').forEach((btn,i)=>btn.classList.toggle('active',i===0));
   document.getElementById('sidebar').style.display='block';
   renderSidebar();renderMain();
+}
+
+// ── Topic Edit & Export ──
+let edits = {}; // {idx: {oldCat, oldTopic, newCat, newTopic, title}}
+let currentModalVideo = null;
+
+function getAllTopics(){
+  let result=[];
+  for(const cat of DATA.cat_summary){
+    for(const t of cat.topics){
+      result.push({cat:cat.name, topic:t.topic});
+    }
+  }
+  return result.sort((a,b)=>a.cat.localeCompare(b.cat)||a.topic.localeCompare(b.topic));
+}
+
+function renderEditSection(video){
+  currentModalVideo = video;
+  const wrap = document.getElementById('editTopicWrap');
+  const allTopics = getAllTopics();
+  const edited = edits[video.idx];
+  const curCat = edited ? edited.newCat : video._cat;
+  const curTopic = edited ? edited.newTopic : video._topic;
+
+  let catOptions = [...new Set(allTopics.map(t=>t.cat))];
+  let topicOptions = allTopics.filter(t=>t.cat===curCat).map(t=>t.topic);
+
+  wrap.innerHTML = `
+    <span style="font-size:12px;color:var(--muted)">调整分类：</span>
+    <select class="edit-select" id="editCatSelect" onchange="onEditCatChange()">
+      ${catOptions.map(c=>`<option value="${esc(c)}"${c===curCat?' selected':''}>${esc(c)}</option>`).join('')}
+    </select>
+    <select class="edit-select" id="editTopicSelect">
+      ${topicOptions.map(t=>`<option value="${esc(t)}"${t===curTopic?' selected':''}>${esc(t)}</option>`).join('')}
+    </select>
+    <button class="edit-save-btn" onclick="saveTopicEdit()">✓ 保存</button>
+    ${edited?'<span class="edit-msg">已修改</span>':''}
+  `;
+}
+
+function onEditCatChange(){
+  const cat = document.getElementById('editCatSelect').value;
+  const allTopics = getAllTopics();
+  const topicOptions = allTopics.filter(t=>t.cat===cat).map(t=>t.topic);
+  const sel = document.getElementById('editTopicSelect');
+  sel.innerHTML = topicOptions.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+}
+
+function saveTopicEdit(){
+  if(!currentModalVideo) return;
+  const newCat = document.getElementById('editCatSelect').value;
+  const newTopic = document.getElementById('editTopicSelect').value;
+  const v = currentModalVideo;
+
+  if(newCat === v._cat && newTopic === v._topic){
+    // No change, remove edit if exists
+    delete edits[v.idx];
+  } else {
+    edits[v.idx] = {
+      idx: v.idx,
+      title: v.title,
+      oldCat: v._cat,
+      oldTopic: v._topic,
+      newCat: newCat,
+      newTopic: newTopic
+    };
+  }
+
+  // Update export button
+  const count = Object.keys(edits).length;
+  document.getElementById('editCount').textContent = count;
+  document.getElementById('exportBtn').classList.toggle('show', count > 0);
+
+  // Re-render edit section to show status
+  renderEditSection(currentModalVideo);
+}
+
+function exportEdits(){
+  const editList = Object.values(edits);
+  if(!editList.length) return;
+
+  // Generate readable text + JSON
+  let text = '# 母题分类修改记录\\n';
+  text += '# 导出时间: ' + new Date().toLocaleString('zh-CN') + '\\n';
+  text += '# 共 ' + editList.length + ' 条修改\\n\\n';
+  for(const e of editList){
+    text += `视频 #${e.idx}: ${e.title}\\n`;
+    text += `  原分类: ${e.oldCat} / ${e.oldTopic}\\n`;
+    text += `  新分类: ${e.newCat} / ${e.newTopic}\\n\\n`;
+  }
+
+  const blob = new Blob([text.replace(/\\n/g,'\\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'topic_edits_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 document.getElementById('searchInput').addEventListener('input',(e)=>{
