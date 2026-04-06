@@ -470,6 +470,9 @@ let state = {curTab:'topics',curCat:null,curTopic:null,q:'',sort:'likes',viewMod
 
 function esc(s){return ((s||'')+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function fmt(n){if(n>=10000000)return(n/10000000).toFixed(1)+'千万';if(n>=10000)return(n/10000).toFixed(1)+'万';if(n>=1000)return(n/1000).toFixed(1)+'k';return String(n||0)}
+const _coverGrads=['linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#43e97b,#38f9d7)','linear-gradient(135deg,#fa709a,#fee140)','linear-gradient(135deg,#a18cd1,#fbc2eb)','linear-gradient(135deg,#fccb90,#d57eeb)','linear-gradient(135deg,#e0c3fc,#8ec5fc)','linear-gradient(135deg,#f5576c,#ff6a88)','linear-gradient(135deg,#667eea,#43e97b)'];
+function coverPlaceholder(title,w,h){const ch=(title||'').replace(/[^\u4e00-\u9fa5a-zA-Z]/g,'').charAt(0)||'📹';const g=_coverGrads[Math.abs(hashStr(title||''))%_coverGrads.length];return `<div style="width:${w||'100%'};height:${h||'100%'};background:${g};display:flex;align-items:center;justify-content:center;font-size:${parseInt(h)||90>60?'28':'20'}px;color:rgba(255,255,255,.85);font-weight:700;border-radius:inherit">${ch}</div>`;}
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return h;}
 
 init();
 
@@ -593,7 +596,7 @@ function renderTopicDetail(main,topic){
       return `
         <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px">
           <div style="display:flex;gap:12px;align-items:flex-start;cursor:pointer" onclick="toggleScript(${v.idx})">
-            <div style="width:120px;height:90px;background:var(--card2);border-radius:8px;overflow:hidden;flex-shrink:0">${cover?`<img src='${esc(cover)}' style='width:100%;height:100%;object-fit:cover'>`:''}</div>
+            <div style="width:120px;height:90px;background:var(--card2);border-radius:8px;overflow:hidden;flex-shrink:0">${coverPlaceholder(v.title,'120px','90px')}</div>
             <div style="flex:1">
               <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px">${esc(v.title)}</div>
               <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted);margin-bottom:8px">
@@ -676,7 +679,7 @@ function renderVideoList(videos){
     html+=`<tr onclick="showScriptModal(${v.idx})">
       <td><span class="cat-tag" onclick="event.stopPropagation();goToTopic('${esc(v._cat)}',null)">${esc(v._cat)}</span></td>
       <td><span class="topic-tag" onclick="event.stopPropagation();goToTopic('${esc(v._cat)}','${esc(v._topic)}')">${esc(v._topic)}</span></td>
-      <td><div class="video-cover">${cover?`<img src="${esc(cover)}">`:''}</div></td>
+      <td><div class="video-cover">${coverPlaceholder(v.title,'100%','100%')}</div></td>
       <td><div class="video-title" title="${esc(v.title)}">${esc(v.title)}</div></td>
       <td style="text-align:center"><span class="stat-cell likes">${fmt(v.likes)}</span></td>
       <td style="text-align:center"><span class="stat-cell favorites">${fmt(v.favorites||0)}</span></td>
@@ -753,7 +756,7 @@ function renderVideoGrid(videos){
     const cover=v.cover_url||'';
     const link=v.douyin_link||'#';
     return `<div class="video-card" onclick="window.open('${esc(link)}','_blank')">
-      <div class="video-card-cover">${cover?`<img src="${esc(cover)}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+      <div class="video-card-cover">${coverPlaceholder(v.title,'100%','100%')}</div>
       <div class="video-card-body">
         <div class="video-card-title">${esc(v.title)}</div>
         <div style="display:flex;gap:4px;margin-bottom:8px">
@@ -838,7 +841,7 @@ function renderMobileVideoCards(videos){
     const link=v.douyin_link||'#';
     return `<div class="mobile-video-card" onclick="showScriptModal(${v.idx})">
       <div class="mv-top">
-        <div class="mv-cover">${cover?`<img src="${esc(cover)}">`:''}</div>
+        <div class="mv-cover">${coverPlaceholder(v.title,'100%','100%')}</div>
         <div class="mv-info">
           <div class="mv-title">${esc(v.title)}</div>
           <div class="mv-tags">
